@@ -12,8 +12,9 @@ jobs:
         mkdir xsimd
         cd xsimd
         git clone https://github.com/xtensor-stack/xsimd.git
+        cd xsimd
         git checkout "13.2.0"
-        cd ..
-        export XSIMD_INCLUDE=$(pwd)/xsimd/include
+        cd ../..
+        export XSIMD_INCLUDE=$(pwd)/xsimd/xsimd/include
         cd tests
         bash run_tests.sh
