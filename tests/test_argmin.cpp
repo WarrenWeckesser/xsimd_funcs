@@ -23,5 +23,5 @@ int main()
         assert_equal_integer(test, result.index, k, "incorrect argmin");
         v[k] = tmp;
     }
-    return test.print_summary("Summary: ");
+    return test.print_summary("test_argmin summary: ");
 }

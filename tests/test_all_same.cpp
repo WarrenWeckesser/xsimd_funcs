@@ -50,5 +50,5 @@ main()
         z.push_back(10);
     }
 
-    return test.print_summary("Summary: ");
+    return test.print_summary("test_all_same summary: ");
 }
