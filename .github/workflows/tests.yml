@@ -1,0 +1,20 @@
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: install xsimd
+      run: |
+        mkdir xsimd
+        cd xsimd
+        git clone https://github.com/xtensor-stack/xsimd.git
+        git checkout "13.2.0"
+        cd ..
+    - name: build and run the tests
+        export XSIMD_INCLUDE=$(pwd)/xsimd/include
+        cd tests
+        bash run_tests.sh
