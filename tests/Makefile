@@ -1,12 +1,9 @@
-TESTS = test_all_same test_argmin
+TESTS = test_all_same test_argmin test_peaktopeak
 
 all: $(TESTS)
 
-test_all_same: test_all_same.cpp checkit.h
-	g++ -std=c++17 -pedantic -Wall -Wextra -march=native -O3 -I $(XSIMD_INCLUDE) -I ../include test_all_same.cpp -o test_all_same
-
-test_argmin: test_argmin.cpp checkit.h
-	g++ -std=c++17 -pedantic -Wall -Wextra -march=native -O3 -I $(XSIMD_INCLUDE) -I ../include test_argmin.cpp -o test_argmin
+%: %.cpp checkit.h
+	g++ -std=c++17 -pedantic -Wall -Wextra -march=native -O3 -I $(XSIMD_INCLUDE) -I ../include $< -o $@
 
 clean:
-	rm -rf *.o $(TESTS)
+	rm -rf $(TESTS)
