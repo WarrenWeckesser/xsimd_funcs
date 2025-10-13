@@ -1,10 +1,11 @@
-#include <iostream>
-#include <cstdint>
-#include <vector>
+#include <cassert>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <iomanip>
+#include <iostream>
 #include <string>
+#include <vector>
 
 #include "xsimd_funcs/ordered.hpp"
 namespace xsfun = xsimd_funcs;
@@ -20,9 +21,9 @@ double speedup_array(size_t n)
     double t1, t2;
 
     std::vector<T> x;
-    x.resize(n, 2);
-    x[n-2] = 10;
-    x[n-1] = 0;
+    x.resize(n - 2, 2);
+    x.push_back(10);
+    x.push_back(0);
 
     auto tstart1 = Clock::now();
     auto result1 = xsfun::is_increasing_v1(x);
