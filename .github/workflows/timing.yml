@@ -1,0 +1,21 @@
+name: timing
+
+on: workflow_dispatch
+
+jobs:
+  run-timings:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install xsimd 13.2.0 and run the timing programs.
+      run: |
+        git clone https://github.com/xtensor-stack/xsimd.git
+        cd xsimd
+        git checkout -q "13.2.0"
+        cd ..
+        export XSIMD_INCLUDE=$(pwd)/xsimd/include
+        cd timing
+        bash run_timing.sh
