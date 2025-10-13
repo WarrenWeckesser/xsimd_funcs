@@ -20,8 +20,8 @@ double speedup_array(size_t n)
     double t1, t2;
 
     std::vector<T> x;
-    x.resize(n, 2);
-    x[n-1] = 10;
+    x.resize(n - 1, 2);
+    x.push_back(10);
 
     auto tstart1 = Clock::now();
     auto result1 = xsfun::all_same(x);
