@@ -12,10 +12,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install xsimd 13.2.0 and run the timing programs.
       run: |
+        g++ -v
+        echo "--------------------------------------"
         git clone https://github.com/xtensor-stack/xsimd.git
         cd xsimd
         git checkout -q "13.2.0"
         cd ..
         export XSIMD_INCLUDE=$(pwd)/xsimd/include
         cd timing
+        echo "--------------------------------------"
         bash run_timing.sh
