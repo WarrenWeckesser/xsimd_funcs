@@ -4,10 +4,13 @@ on: [push, pull_request]
 
 jobs:
   run-tests:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - name: install xsimd and run the tests
+    - name: install xsimd 13.2.0 and run the tests
       run: |
         mkdir xsimd
         cd xsimd
