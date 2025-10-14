@@ -56,6 +56,8 @@ int main()
     size_t n = 3499993;
     int nrepeats = 100;
 
+    cout << "\nordered_timing\n";
+
     check<float>          ("float          ", n, nrepeats);
     check<double>         ("double         ", n, nrepeats);
     check<unsigned char>  ("unsigned char  ", n, nrepeats);

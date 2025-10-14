@@ -54,6 +54,8 @@ int main()
     size_t n = 50001;
     int nrepeats = 100;
 
+    cout << "\nall_same_timing\n";
+
     check<float>          ("float          ", n, nrepeats);
     check<double>         ("double         ", n, nrepeats);
     check<unsigned char>  ("unsigned char  ", n, nrepeats);

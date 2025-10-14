@@ -59,6 +59,8 @@ int main()
     size_t n = 2000;
     int nrepeats = 20;
 
+    cout << "\nmin_argmin_timing\n";
+
     check<float>          ("float          ", n, nrepeats);
     check<double>         ("double         ", n, nrepeats);
     check<short>          ("short          ", n, nrepeats);
