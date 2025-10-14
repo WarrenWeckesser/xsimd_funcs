@@ -32,7 +32,7 @@ bool is_increasing_scalar_loop(const std::vector<T>& x)
 }
 
 template<typename T>
-bool is_increasing_v1(const std::vector<T>& x)
+bool is_increasing(const std::vector<T>& x)
 {
     std::size_t size = x.size();
     constexpr std::size_t simd_size = xsimd::simd_type<T>::size;
