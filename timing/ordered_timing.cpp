@@ -26,7 +26,7 @@ double speedup_array(size_t n)
     x.push_back(0);
 
     auto tstart1 = Clock::now();
-    auto result1 = xsfun::is_increasing_v1(x);
+    auto result1 = xsfun::is_increasing(x);
     t1 = 1000*chrono::duration_cast<Second>(Clock::now() - tstart1).count();
 
     auto tstart2 = Clock::now();
