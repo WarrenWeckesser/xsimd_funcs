@@ -124,23 +124,24 @@ vecs_to_arrays(xsimd::simd_type<T> value_vec,
 template<typename T>
 value_index_pair<T> min_argmin(const std::vector<T>& x)
 {
-    constexpr std::size_t simd_size = xsimd::simd_type<T>::size;
-    std::size_t size = x.size();
-    std::size_t vec_size = size - size % simd_size;
+    using std::size_t;
+    constexpr size_t simd_size = xsimd::simd_type<T>::size;
+    size_t size = x.size();
+    size_t vec_size = size - size % simd_size;
 
     if (vec_size >= 2*simd_size) {
         T xmin;
-        std::size_t kmin;
+        size_t kmin;
 
         using batch_int_t = std::make_unsigned_t<xsimd::as_integer_t<T>>;
-        constexpr std::size_t batch_int_max = std::numeric_limits<batch_int_t>::max();
-        constexpr std::size_t block_size = batch_int_max - batch_int_max % simd_size;
+        constexpr size_t batch_int_max = std::numeric_limits<batch_int_t>::max();
+        constexpr size_t block_size = batch_int_max - batch_int_max % simd_size;
 
         if (size < block_size) {
             // The array can be processed in a single loop of SIMD operations.
             auto xminvec = xsimd::load_unaligned(&x[0]);
             xsimd::simd_type<batch_int_t> kminvec = xsimd::broadcast<batch_int_t>(0);
-            for (std::size_t i = simd_size; i < vec_size; i += simd_size) {
+            for (size_t i = simd_size; i < vec_size; i += simd_size) {
                 auto xvec = xsimd::load_unaligned(&x[i]);
                 auto lt = xsimd::lt(xvec, xminvec);
                 xminvec = xsimd::select(lt, xvec, xminvec);
@@ -161,8 +162,8 @@ value_index_pair<T> min_argmin(const std::vector<T>& x)
             batch_int_t kminv[simd_size];
             xsimd::store(kminv, kminvec);
             T xm = xminv[0];
-            std::size_t imin = 0;
-            for (std::size_t i = 1; i < simd_size; ++i) {
+            size_t imin = 0;
+            for (size_t i = 1; i < simd_size; ++i) {
                 if (xminv[i] < xm) {
                     xm = xminv[i];
                     imin = i;
@@ -174,8 +175,8 @@ value_index_pair<T> min_argmin(const std::vector<T>& x)
             // Process the final values of x, if there are any.
             if (vec_size != size) {
                 T mm = x[vec_size];
-                std::size_t imm = 0;
-                for (std::size_t i = 1; i < size - vec_size; ++i) {
+                size_t imm = 0;
+                for (size_t i = 1; i < size - vec_size; ++i) {
                     if (x[vec_size + i] < mm) {
                         mm = x[vec_size + i];
                         imm = i;
@@ -190,17 +191,17 @@ value_index_pair<T> min_argmin(const std::vector<T>& x)
             // Handle block_size < size...
             // XXX WIP -- Needs D.R.Y. clean up
             T xminarr[simd_size];
-            std::size_t kminarr[simd_size];
-            std::size_t block_start = 0;
+            size_t kminarr[simd_size];
+            size_t block_start = 0;
 
             while (block_start < vec_size) {
                 auto xminvec = xsimd::load_unaligned(&x[block_start]);
                 xsimd::simd_type<batch_int_t> kminvec = xsimd::broadcast<batch_int_t>(0);
-                std::size_t stop = block_start + block_size;
+                size_t stop = block_start + block_size;
                 if (stop > vec_size) {
                     stop = vec_size;
                 }
-                for (std::size_t i = block_start + simd_size; i < stop; i += simd_size) {
+                for (size_t i = block_start + simd_size; i < stop; i += simd_size) {
                     auto xvec = xsimd::load_unaligned(&x[i]);
                     auto lt = xsimd::lt(xvec, xminvec);
                     xminvec = xsimd::select(lt, xvec, xminvec);
@@ -215,10 +216,10 @@ value_index_pair<T> min_argmin(const std::vector<T>& x)
                 else {
                     // Not the first block...
                     T xminarr1[simd_size];
-                    std::size_t kminarr1[simd_size];
+                    size_t kminarr1[simd_size];
                     vecs_to_arrays(xminvec, kminvec, xminarr1, kminarr1, block_start);
                     // Merge (xminarr1, kminarr1) into (xminarr, kminarr)
-                    for (std::size_t i = 0; i < simd_size; ++i) {
+                    for (size_t i = 0; i < simd_size; ++i) {
                         if (xminarr1[i] < xminarr[i]) {
                             xminarr[i] = xminarr1[i];
                             kminarr[i] = kminarr1[i];
@@ -230,7 +231,7 @@ value_index_pair<T> min_argmin(const std::vector<T>& x)
 
             xmin = xminarr[0];
             kmin = kminarr[0];
-            for (std::size_t i = 1; i < simd_size; ++i) {
+            for (size_t i = 1; i < simd_size; ++i) {
                 if (xminarr[i] < xmin) {
                     xmin = xminarr[i];
                     kmin = kminarr[i];
@@ -241,8 +242,8 @@ value_index_pair<T> min_argmin(const std::vector<T>& x)
 
             if (vec_size != size) {
                 T mm = x[vec_size];
-                std::size_t imm = 0;
-                for (std::size_t i = 1; i < size - vec_size; ++i) {
+                size_t imm = 0;
+                for (size_t i = 1; i < size - vec_size; ++i) {
                     if (x[vec_size + i] < mm) {
                         mm = x[vec_size + i];
                         imm = i;
