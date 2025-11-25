@@ -39,8 +39,7 @@ bool is_increasing(const std::vector<T>& x)
     std::size_t vec_size = size - (size - 1) % simd_size;
 
     if (vec_size >= 2*simd_size) {
-        auto i = simd_size;
-        for (i = 1; i < vec_size; i += simd_size) {
+        for (std::size_t i = 1; i < vec_size; i += simd_size) {
             auto vec0 = xsimd::load_unaligned(&x[i-1]);
             auto vec1 = xsimd::load_unaligned(&x[i]);  // XXX More memory access than necessary?
             auto cmp = xsimd::gt(vec0, vec1);
