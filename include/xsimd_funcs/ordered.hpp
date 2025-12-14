@@ -9,6 +9,9 @@
 
 namespace xsimd_funcs {
 
+
+namespace detail {
+
 //
 // Simple scalar loop (i.e. not SIMD) to determine if a 1-d array has
 // increasing values.  Array with length 0 and 1 are considered to be
@@ -31,6 +34,8 @@ bool is_increasing_scalar_loop(const std::vector<T>& x)
     return is_increasing_scalar_loop(x.size(), &x[0]);
 }
 
+} // namespace detail
+
 template<typename T>
 bool is_increasing(const std::vector<T>& x)
 {
@@ -48,13 +53,13 @@ bool is_increasing(const std::vector<T>& x)
             }
         }
         if (vec_size != size) {
-            return is_increasing_scalar_loop(size - vec_size + 1, &x[vec_size - 1]);
+            return detail::is_increasing_scalar_loop(size - vec_size + 1, &x[vec_size - 1]);
         }
 
         return true;
     }
     else {
-        return is_increasing_scalar_loop(x);
+        return detail::is_increasing_scalar_loop(x);
     }
 }
 
@@ -95,10 +100,10 @@ bool is_increasing_v2(const std::vector<T>& x)
             }
             x0 = x1;
         }
-        return is_increasing_scalar_loop(size - vec_size + simd_size, &x[vec_size - simd_size]);
+        return detail::is_increasing_scalar_loop(size - vec_size + simd_size, &x[vec_size - simd_size]);
     }
     else {
-        return is_increasing_scalar_loop(x);
+        return detail::is_increasing_scalar_loop(x);
     }
 }
 

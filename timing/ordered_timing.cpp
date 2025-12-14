@@ -30,7 +30,7 @@ double speedup_array(size_t n)
     t1 = 1000*chrono::duration_cast<Second>(Clock::now() - tstart1).count();
 
     auto tstart2 = Clock::now();
-    auto result2 = xsfun::is_increasing_scalar_loop(x);
+    auto result2 = xsfun::detail::is_increasing_scalar_loop(x);
     t2 = 1000*chrono::duration_cast<Second>(Clock::now() - tstart2).count();
 
     if (result1 != result2) {
