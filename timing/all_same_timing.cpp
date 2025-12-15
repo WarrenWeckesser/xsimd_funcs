@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdint>
+#include <cstdlib>
 #include <vector>
 #include <chrono>
 #include <cmath>
@@ -49,12 +50,15 @@ void check(const char *name, size_t n, int nrepeats)
          << s/nrepeats << " (" << xsimd::simd_type<T>::size << ")\n";
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     size_t n = 50001;
     int nrepeats = 100;
+    if (argc > 1) {
+        n = strtoll(argv[1], nullptr, 10);
+    }
 
-    cout << "\nall_same_timing\n";
+    cout << "\nall_same_timing, n = " << n << endl;
 
     check<float>          ("float          ", n, nrepeats);
     check<double>         ("double         ", n, nrepeats);
