@@ -9,7 +9,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Install xsimd 14.1.0 and run the tests
       run: |
         git clone https://github.com/xtensor-stack/xsimd.git
