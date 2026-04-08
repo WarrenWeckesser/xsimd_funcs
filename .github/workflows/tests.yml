@@ -10,11 +10,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - name: Install xsimd 13.2.0 and run the tests
+    - name: Install xsimd 14.1.0 and run the tests
       run: |
         git clone https://github.com/xtensor-stack/xsimd.git
         cd xsimd
-        git checkout -q "13.2.0"
+        git checkout -q "14.1.0"
         cd ..
         export XSIMD_INCLUDE=$(pwd)/xsimd/include
         cd tests
